@@ -4,6 +4,28 @@ const User = require("../models/user.model");
 
 const router = express.Router();
 
+router.get("", async (req, res) => {
+  try {
+    const user = await User.find();
+    return res.status(200).send(user);
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).lean().exec();
+    if (user) {
+      return res.status(200).send(user);
+    } else {
+      return res.status(404).send("User not found!");
+    }
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+});
+
 router.post(
   "",
   body("id")
@@ -52,5 +74,17 @@ router.post(
     }
   }
 );
+
+router.put("/:id", async (req, res) => {});
+
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = User.findByIdAndDelete(id);
+    return res.status(201).send("User deleted successfully");
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+});
 
 module.exports = router;
