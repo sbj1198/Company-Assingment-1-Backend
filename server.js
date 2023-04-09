@@ -12,7 +12,7 @@ app.use(express.json());
 app.use("/users", userController);
 app.use("/posts", postController);
 
-app.listen(process.env.PORT, async () => {
+app.listen(process.env.PORT || 5000, async () => {
   try {
     await connection;
     console.log(`Connected to Database`);
