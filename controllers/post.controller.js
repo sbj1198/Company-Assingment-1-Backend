@@ -53,6 +53,7 @@ router.post(
     .withMessage("Invalid user ID"),
   async (req, res) => {
     try {
+      console.log("Inside try");
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         let newErrors;
@@ -63,8 +64,9 @@ router.post(
         return res.status(400).send({ errors: newErrors });
       }
       const post = await Post.create(req.body);
-      return res.status(201).send(user);
+      return res.status(201).send(post);
     } catch (error) {
+      console.log("Inside catch");
       return res.status(500).send({ message: error.message });
     }
   }

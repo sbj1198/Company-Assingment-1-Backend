@@ -39,6 +39,7 @@ router.post(
     .bail()
     .custom(async (value) => {
       const user = await User.findOne({ id: value });
+      console.log(user);
       if (user) {
         throw new Error("Id already exists");
       }
