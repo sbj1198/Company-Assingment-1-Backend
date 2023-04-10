@@ -30,8 +30,12 @@ router.get("/:id", async (req, res) => {
 router.post(
   "",
   body("id")
-    .isNumeric()
+    .exists()
+    .withMessage("Number is required")
+    .isInt()
     .withMessage("Id is not a number")
+    .isInt({ min: 0 })
+    .withMessage("Number must be positive")
     .bail()
     .custom(async (value) => {
       const user = await User.findOne({ id: value });
